@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -34,13 +36,12 @@ public class GenerateUsers {
             User n = new User();
             n.setUsername(username);
             n.setlanguage(faker.options().option("English","French","Spanish","German","Greek").toString());
-            courserepo.findAll();
-            long count=courserepo.count();
 
+            Iterable<Course> course =courserepo.findAll();;
             for(int j=0;j<20;j++) {
-                long courseid = faker.number().numberBetween(1, 800);
-                Course course = courserepo.findByCourseid(courseid);
-                n.getCourses().add(course);
+                List<Course> target = new ArrayList<>();
+                course.forEach(target::add);
+                n.getCourses().add(faker.options().nextElement(target));
             }
 
 

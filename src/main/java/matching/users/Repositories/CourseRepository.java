@@ -8,7 +8,4 @@ import java.util.Set;
 // CRUD refers Create, Read, Update, Delete
 
 public interface CourseRepository extends CrudRepository<Course, Long> {
-
-
-     Course findByCourseid(long courseid);
 }

@@ -39,25 +39,23 @@ public class FillCourses {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Course n = new Course();
+
         while (true)   //returns a Boolean value
         {
             try {
-                if (!((line = br.readLine()) != null)) break;
+                if ((line = br.readLine()) == null) break;
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            Course n = new Course();
             String[] course_data = line.split(splitBy);    // use comma as separator
-
             n.setCourse_title(course_data[1]);
             n.setCourse_organization(course_data[2]);
             n.setCourse_rating(course_data[4]);
             n.setCourse_difficulty(course_data[5]);
             n.setCourse_students_enrolled(course_data[6]);
-
+            CourseRepository.save(n);
         }
-
-        CourseRepository.save(n);
         return "Filled courses";
     }
 
