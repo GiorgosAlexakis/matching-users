@@ -1,23 +1,23 @@
-
+/*
 package matching.users.Matching;
 
-/*
+
 Matching Fuction:
 Input 1 user
 Search in database for 10 best matches
-*/
 
-/*
+
+
 for each user add a history table and a negative match table.
 History table ->previus users that has been matched.
 negative match -> users that the user said that didnt want to match.
+
+
+
+
+
 */
-
-
-
-
-
-
+/*
 import matching.users.Models.Course;
 import matching.users.Models.User;
 
@@ -141,3 +141,4 @@ public class Matching{
 
 
 }
+*/
