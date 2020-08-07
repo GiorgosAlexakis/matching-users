@@ -29,6 +29,9 @@ public class GenerateUsers {
     @RequestMapping(path="/Generate")
     public  @ResponseBody String GenerateUser(){
         Faker faker = new Faker();
+        Iterable<Course> course =courserepo.findAll();
+        List<Course> target = new ArrayList<>();
+        course.forEach(target::add);
         for(int i=0;i<100;i++) {
             String username;
             username = faker.name().lastName();
@@ -36,15 +39,9 @@ public class GenerateUsers {
             User n = new User();
             n.setUsername(username);
             n.setlanguage(faker.options().option("English","French","Spanish","German","Greek").toString());
-
-            Iterable<Course> course =courserepo.findAll();;
             for(int j=0;j<20;j++) {
-                List<Course> target = new ArrayList<>();
-                course.forEach(target::add);
                 n.getCourses().add(faker.options().nextElement(target));
             }
-
-
             userRepository.save(n);
         }
         return "Generated Users Successfully";

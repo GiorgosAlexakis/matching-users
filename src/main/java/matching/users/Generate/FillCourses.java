@@ -32,7 +32,7 @@ public class FillCourses {
     @RequestMapping(path="/FillCourses")
     public  @ResponseBody String FillCourse()  {
         String line = "";
-        String splitBy = ",";
+        String splitBy = ">";
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader("D:/courses_data.csv"));
@@ -47,6 +47,7 @@ public class FillCourses {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             Course n = new Course();
             String[] course_data = line.split(splitBy);    // use comma as separator
             n.setCourse_title(course_data[1]);

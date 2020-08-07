@@ -1,5 +1,8 @@
 package matching.users.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -52,8 +55,9 @@ class Course {
     }
 
     @ManyToMany(mappedBy="courses")
-    private Set<User> users;
 
+    private Set<User> users;
+    @JsonBackReference
     public Set<User> getUsers(){
         return users;
     }

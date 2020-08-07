@@ -1,4 +1,6 @@
 package matching.users.Models;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -51,6 +53,7 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_course", joinColumns = {@JoinColumn(name = "id")}, inverseJoinColumns = {@JoinColumn(name = "courseid")})
+    @JsonManagedReference
     public Set<Course> getCourses() {
         return this.courses;
     }

@@ -1,4 +1,4 @@
-/*
+
 package matching.users.Matching;
 
 /*
@@ -13,12 +13,16 @@ History table ->previus users that has been matched.
 negative match -> users that the user said that didnt want to match.
 */
 
-/*
+
+import matching.users.Models.Course;
+import matching.users.Models.User;
+
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Matching{
+    public List<User> Matching(long userid, String username, String userlanguage, List<Course> courses) {
 
     //merge sort
 
@@ -118,5 +122,7 @@ public class Matching{
         return result;
 
     }
+
+    }
+
 }
-*/
