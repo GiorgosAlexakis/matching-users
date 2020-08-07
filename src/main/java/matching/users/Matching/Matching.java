@@ -17,12 +17,17 @@ negative match -> users that the user said that didnt want to match.
 import matching.users.Models.Course;
 import matching.users.Models.User;
 
+import matching.users.Repositories.CourseRepository;
+import matching.users.Repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Matching{
-    public List<User> Matching(long userid, String username, String userlanguage, List<Course> courses) {
+    public List<User> Matching(long userid, String username, String userlanguage, List<Course> courses, CourseRepository courseRepository, UserRepository userRepository) {
+
 
     //merge sort
 
@@ -122,7 +127,8 @@ public class Matching{
         return result;
 
     }
-
     }
+    }
+
 
 }
