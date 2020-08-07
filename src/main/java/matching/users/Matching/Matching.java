@@ -36,10 +36,10 @@ public class Matching{
     private CourseRepository courseRepository;
     @Autowired
     private UserRepository userRepository;
-    public List<User> Matching(long userid, String username, String userlanguage, List<Course> courses) {
+    public List<User> Matching(User user,long userid, String username, String userlanguage, List<Course> courses) {
 
+        boolean hascourse=user.hasCourse("sigkekrimeno course san entity omws oxi san onoma");
         //merge sort
-
     public static void sort(List<Integer> list) {
         if (list.size() < 2) {
             return;
