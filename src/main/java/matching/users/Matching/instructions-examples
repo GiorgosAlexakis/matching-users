@@ -1,0 +1,116 @@
+
+EXAMPLE QUERIES
+
+
+ex: userRepository.findAll() Μου τους επιστρέφει ολους σε Iterable
+ετσι το μετατρέπεις σε λιστα
+        Iterable<Course> course =courserepo.findAll();
+        List<Course> target = new ArrayList<>();
+
+ex:  userRepository.findAll(new Sort(Sort.Direction.ASC, "name"));
+ex:  userRepository.findAll(new Sort("LENGTH(name)"));
+
+/* http://zetcode.com/springboot/datajpaquery/
+ εαν δεις εχει την κλαση του ως service,εκανα και εγω την Matching συναρτηση Service Αν και δεν ξερω αν χρειάζεται
+ */
+
+Εαν θέλω custom query πρεπει να κάνω extend το repository
+
+By extending from the Spring CrudRepository,
+ we will have some methods for our data repository implemented. In addition, we create a custom findByNameEndsWith() method.
+
+@Repository
+public interface CityRepository extends CrudRepository<City, Long> {
+
+    @Query("select c from City c where c.name like %?1")
+    List<City> findByNameEndsWith(String chars);
+}
+
+παραδειγμα χρήσης
+
+@Override
+public List<City> findByNameEndsWith(String name) {
+
+    var cities = (List<City>) repository.findByNameEndsWith(name);
+    return cities;
+}
+
+απο οτι είδα ειναι λιγο Outdated η μεθοδος αυτη
+
+/* https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-creating-database-queries-from-method-names/ */
+
+ example:
+
+interface TodoRepository extends Repository<Todo, Long> {
+
+    /**
+     * Returns the found todo entry whose title or description is given
+     * as a method parameter. If no todo entry is found, this method
+     * returns an empty list.
+     */
+    public List<Todo> findByTitleOrDescription(String title, String description);
+}
+
+import org.springframework.data.repository.Repository;
+
+ example:
+
+interface TodoRepository extends Repository<Todo, Long> {
+
+    /**
+     * Returns the number of todo entry whose title is given
+     * as a method parameter.
+     */
+    public long countByTitle(String title);
+}
+
+*/limiting query results*/
+https://docs.spring.io/spring-data/jpa/docs/1.8.x/reference/html/#repositories.limit-query-result
+
+
+Example 10. Limiting the result size of a query with Top and First
+User findFirstByOrderByLastnameAsc();
+
+User findTopByOrderByAgeDesc();
+
+Page<User> queryFirst10ByLastname(String lastname, Pageable pageable);
+
+Slice<User> findTop3ByLastname(String lastname, Pageable pageable);
+
+List<User> findFirst10ByLastname(String lastname, Sort sort);
+
+List<User> findTop10ByLastname(String lastname, Pageable pageable);
+
+/* */
+example:
+interface MyBaseRepository<T, ID extends Serializable> extends Repository<T, ID> {
+
+  T findOne(ID id);
+
+  T save(T entity);
+}
+
+interface UserRepository extends MyBaseRepository<User, Long> {
+  User findByEmailAddress(EmailAddress emailAddress);
+}
+
+example:
+
+Example 8. Query creation from method names
+public interface PersonRepository extends Repository<User, Long> {
+
+  List<Person> findByEmailAddressAndLastname(EmailAddress emailAddress, String lastname);
+
+  // Enables the distinct flag for the query
+  List<Person> findDistinctPeopleByLastnameOrFirstname(String lastname, String firstname);
+  List<Person> findPeopleDistinctByLastnameOrFirstname(String lastname, String firstname);
+
+  // Enabling ignoring case for an individual property
+  List<Person> findByLastnameIgnoreCase(String lastname);
+  // Enabling ignoring case for all suitable properties
+  List<Person> findByLastnameAndFirstnameAllIgnoreCase(String lastname, String firstname);
+
+  // Enabling static ORDER BY for a query
+  List<Person> findByLastnameOrderByFirstnameAsc(String lastname);
+  List<Person> findByLastnameOrderByFirstnameDesc(String lastname);
+}

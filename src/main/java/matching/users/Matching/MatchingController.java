@@ -30,7 +30,7 @@ public class MatchingController{
             List<Course> courses = convertToList(user.getCourses());
             Matching match;
             match = new Matching();
-            List<User> similarusers=match.Matching(userid,username,userlanguage,courses,CourseRepository,UserRepository);
+            List<User> similarusers=match.Matching(userid,username,userlanguage,courses);
             return similarusers;
         }
         public static <T> List<T> convertToList(Set<T> set)

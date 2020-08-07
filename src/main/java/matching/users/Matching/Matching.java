@@ -14,22 +14,31 @@ negative match -> users that the user said that didnt want to match.
 */
 
 
+
+
+
+
 import matching.users.Models.Course;
 import matching.users.Models.User;
 
 import matching.users.Repositories.CourseRepository;
 import matching.users.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class Matching{
-    public List<User> Matching(long userid, String username, String userlanguage, List<Course> courses, CourseRepository courseRepository, UserRepository userRepository) {
+    @Autowired
+    private CourseRepository courseRepository;
+    @Autowired
+    private UserRepository userRepository;
+    public List<User> Matching(long userid, String username, String userlanguage, List<Course> courses) {
 
-
-    //merge sort
+        //merge sort
 
     public static void sort(List<Integer> list) {
         if (list.size() < 2) {
