@@ -40,98 +40,93 @@ public class Matching{
 
         boolean hascourse=user.hasCourse("sigkekrimeno course san entity omws oxi san onoma");
         //merge sort
-    public static void sort(List<Integer> list) {
+    public static void sort(List<Integer> list, List<User> list2) {
         if (list.size() < 2) {
             return;
         }
         int mid = list.size()/2;
         List<Integer> left = new ArrayList<Integer>(list.subList(0, mid));
-        List<Integer> right = new ArrayList<Integer>(mid, list.size()));
+        List<Integer> right = new ArrayList<Integer>(list.sublist(mid, list.size()));
 
-        sort(left);
-        sort(right);
-        merge(left, right, list);
+        List<User> left2 = new ArrayList<Integer>(list2.sublist(0,mid));
+        List<User> right2 = new ArrayList<Integer>(list2.sublist(mid,list2.size()));
+
+        sort(left,left2);
+        sort(right,right2);
+        merge(left, right, list, left2, right2, list2);
     }
     private static void merge(
-            List<Integer> left, List<Integer> right, List<Integer> list) {
+            List<Integer> left, List<Integer> right, List<Integer> list,List<User> left2, List<User> right2, List<User> list2 ) {
         int leftIndex = 0;
         int rightIndex = 0;
         int listIndex = 0;
 
-        while (leftIndex < left.size() && rightIndex < right.size()) {
+        int left2Index = 0;
+        int right2Index = 0;
+        int list2Index = 0;
+
+
+            while (leftIndex < left.size() && rightIndex < right.size()) {
             if (left.get(leftIndex) < right.get(rightIndex)) {
                 list.set(listIndex++, left.get(leftIndex++));
+                list2.set(list2Index++, left2.get(left2Index++));
             } else {
                 list.set(listIndex++, right.get(rightIndex++));
+                list2.set(list2Index++, right2.get(right2Index++));
             }
         }
         while (leftIndex < left.size()) {
             list.set(listIndex++, left.get(leftIndex++));
+            list2.set(list2Index++, left2.get(left2Index++));
         }
         while (rightIndex < right.size()) {
             list.set(listIndex++, right.get(rightIndex++));
+            list2.set(list2Index++, right2.get(right2Index++));
         }
     }
 
 
 
-    static int[] matching(userid){
-        int age = //get age of user from database
-                List<String> languages = //get user languages -> do not recommend users that dont speak the same language
-                        List<String> interest = //get interests of a user
-                                List<Integer> ids = new ArrayList<Integer>();
+    static User[] matching(User user){
+        String user_language = user.getlanguage(); // the language of the user that wants to match
+        List<Course> userCourses = convertToList(user.getCourses()); // the courses of the user that wants to match
+        List<User> ids = convertToList(userRepository.findAll());
         List<Integer> weights = new ArrayList<Integer>();
-        List<Integer> negative = //read negative list
-        //weights for each same language add 1
-        //activities ->we consider this the first 3 interests are the mains and for each same we add 10, for the next interests we add 2.
-        int no_of_users = //get the totall number of users
-                List<Integer> userids // get all user ids
+        int no_of_users = ids.size();
+        List<User> result_users = new ArrayList<User>();
         for(int i =0;i<no_of_users;i++){
-            int tempdid = userids.get(i)
-            boolean flag = negative.conatins(tempdid);
-            if (i==userid || flag){
+            int tempdid = ids.get(i);
+            int weight = 0;
+            if (i==userid){
                 continue;
             }
             ids.add(tempdid);
-            List<String> temp_languages =
-                    List<String> temp_interest =
-                            temp_languages.retainAll(languages);
-            int temp_weight = temp_languages.size();
-            if(temp_weight == 0){
+            String temp_language = tempdid.getlanguage();
+            List<Course> temp_Courses = convertToList(tempid.getCourses());
+
+            if(user_language != temp_language) {
                 continue;
             }
-            if(interest.size()>=3){
-                List<String> main_interest = new ArrayList<String>();
-                for(int j = 0; j<3;j++){
-                    main_interest.add(interest.get(j));
-                }
-                List<String> second = new ArrayList<String>();
-                for(int j = 3; j<interest.size();j++){
-                    second_interest.add(interest.get(j));
-                }
-                main_interest.retainAll(temp_interest);
-                second_interest.retainAll(temp_interest);
-                temp_weight += main_interest.size()*10 + second_interest.size()*2;
-
+            List<Course> same_courses = userCourses;
+            same_courses.retainAll(temp_Courses);
+            //score of course * 5
+            for(int k = 0; k < same_courses.size();k++) {
+                weight += same_courses.get(k).getCourse_rating() * 5;
             }
-            else{
-                temp_interest.retainAll(interest);
-                temp_weight += temp_interest.size()*10;
-            }
-            int temp_age = //get age of user -> weight = 3/ age_diference
-                    temp_weight += 3/Math.abs(age - temp_age);
             weights.add(temp_weight);
+            result_users.add(tempdid);
 
             //merge weigths and change ids in the same way
+            sort(weights,result_users);
 
-            if(ids.size >=10){
-                weights.remove(10);
-                ids.remove(10);
+            if(ids.size >=20){
+                weights.remove(20);
+                result_users.remove(20);
             }
         }
-        int result[ids.size()];
-        for (int i =0; i<ids.size();i++){
-            result[i] = ids.get(i);
+        User result[result_users.size()];
+        for (int i =0; i<result_users.size();i++){
+            result[i] = result_users.get(i);
         }
         return result;
 
