@@ -1,4 +1,4 @@
-/*
+
 package matching.users.Matching;
 
 import matching.users.Models.Course;
@@ -17,26 +17,27 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-@RequestMapping(path="/Home/Users/")
+@RequestMapping(path="localhost:8080/Home/Users/")
 
 public class MatchingController{
         @Autowired
         private CourseRepository CourseRepository;
         @Autowired
         private UserRepository UserRepository;
-        @RequestMapping(path="/{username}/Match") List<User> GetSimilarUsers(@PathVariable("username") String username){
-            User user=UserRepository.findbyUsername(username);
+        @GetMapping(path="localhost:8080/Home/Users/{username}/Match") List<User> GetSimilarUsers(@PathVariable("username") String username){
+            User user=UserRepository.findByUsername(username);
             long userid=user.getId();
             String userlanguage=user.getlanguage();
             List<Course> courses = convertToList(user.getCourses());
             Matching match;
-            match = new Matching();
-            List<User> similarusers=match.Matching(user,userid,username,userlanguage,courses);
-            return similarusers;
+            //match = new Matching();
+            //List<User> similarusers=match.matching(user,userid,username,userlanguage,courses);
+            List<User> testt = new ArrayList<User>();
+            testt.add(user);
+            return testt;
         }
         public static <T> List<T> convertToList(Set<T> set)
         {
             return new ArrayList<>(set);
         }
 }
-*/

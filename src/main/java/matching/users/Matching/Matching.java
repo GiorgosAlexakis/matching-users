@@ -1,7 +1,7 @@
-/*
+
 package matching.users.Matching;
 
-
+/*
 Matching Fuction:
 Input 1 user
 Search in database for 10 best matches
@@ -17,7 +17,7 @@ negative match -> users that the user said that didnt want to match.
 
 
 */
-/*
+
 import matching.users.Models.Course;
 import matching.users.Models.User;
 
@@ -29,6 +29,9 @@ import org.springframework.stereotype.Service;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.Iterator;
+import java.util.Collections;
 
 @Service
 public class Matching{
@@ -36,9 +39,9 @@ public class Matching{
     private CourseRepository courseRepository;
     @Autowired
     private UserRepository userRepository;
-    public List<User> Matching(User user,long userid, String username, String userlanguage, List<Course> courses) {
 
-        boolean hascourse=user.hasCourse("sigkekrimeno course san entity omws oxi san onoma");
+
+        //boolean hascourse=user.hasCourse("sigkekrimeno course san entity omws oxi san onoma");
         //merge sort
     public static void sort(List<Integer> list, List<User> list2) {
         if (list.size() < 2) {
@@ -46,10 +49,10 @@ public class Matching{
         }
         int mid = list.size()/2;
         List<Integer> left = new ArrayList<Integer>(list.subList(0, mid));
-        List<Integer> right = new ArrayList<Integer>(list.sublist(mid, list.size()));
+        List<Integer> right = new ArrayList<Integer>(list.subList(mid, list.size()));
 
-        List<User> left2 = new ArrayList<Integer>(list2.sublist(0,mid));
-        List<User> right2 = new ArrayList<Integer>(list2.sublist(mid,list2.size()));
+        List<User> left2 = new ArrayList<User>(list2.subList(0,mid));
+        List<User> right2 = new ArrayList<User>(list2.subList(mid,list2.size()));
 
         sort(left,left2);
         sort(right,right2);
@@ -85,24 +88,43 @@ public class Matching{
         }
     }
 
+    public static  List<User>
+    convertToListUser(Iterable<User> iterator)
+    {
 
+        // Create an empty list
+        List<User> list = new ArrayList<>();
 
-    static User[] matching(User user){
-        String user_language = user.getlanguage(); // the language of the user that wants to match
-        List<Course> userCourses = convertToList(user.getCourses()); // the courses of the user that wants to match
-        List<User> ids = convertToList(userRepository.findAll());
+        // Add each element of iterator to the List
+        for (User usr : iterator){
+            list.add(usr);
+        }
+
+        // Return the List
+        return list;
+    }
+
+    public   List<Course> convertToListCourse(Set<Course> set)
+    {
+        return new ArrayList<>(set);
+    }
+
+    public List<User> matching(User user,long userid,String username, String userlanguage, List<Course> courses){
+        String user_language = userlanguage; // the language of the user that wants to match
+        List<Course> userCourses = courses; // the courses of the user that wants to match
+        List<User> ids = convertToListUser(userRepository.findAll());
         List<Integer> weights = new ArrayList<Integer>();
         int no_of_users = ids.size();
         List<User> result_users = new ArrayList<User>();
         for(int i =0;i<no_of_users;i++){
-            int tempdid = ids.get(i);
+            User tempid = ids.get(i);
             int weight = 0;
-            if (i==userid){
+            if (tempid==user){
                 continue;
             }
-            ids.add(tempdid);
-            String temp_language = tempdid.getlanguage();
-            List<Course> temp_Courses = convertToList(tempid.getCourses());
+            ids.add(tempid);
+            String temp_language = tempid.getlanguage();
+            List<Course> temp_Courses = convertToListCourse(tempid.getCourses());
 
             if(user_language != temp_language) {
                 continue;
@@ -111,29 +133,23 @@ public class Matching{
             same_courses.retainAll(temp_Courses);
             //score of course * 5
             for(int k = 0; k < same_courses.size();k++) {
-                weight += same_courses.get(k).getCourse_rating() * 5;
+                weight += Integer.parseInt(same_courses.get(k).getCourse_rating()) * 5;
             }
-            weights.add(temp_weight);
-            result_users.add(tempdid);
+            weights.add(weight);
+            result_users.add(tempid);
 
             //merge weigths and change ids in the same way
             sort(weights,result_users);
 
-            if(ids.size >=20){
+            if(ids.size() >=20){
                 weights.remove(20);
                 result_users.remove(20);
             }
         }
-        User result[result_users.size()];
-        for (int i =0; i<result_users.size();i++){
-            result[i] = result_users.get(i);
-        }
-        return result;
+        return result_users;
 
-    }
     }
     }
 
 
-}
-*/
+
