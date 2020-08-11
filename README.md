@@ -9,6 +9,10 @@ gradle bootRun στο Intellij,ανοίγεις browser
 localhost:8080/App/FillCourses
 localhost:8080/App/Generate
 refresh στο database
+Frontend Part:
+http://localhost:63342/users/frontend/home.html
+
+Gia na testareis gia match:
 localhost:8080/Home/Match/{username}
 
 
