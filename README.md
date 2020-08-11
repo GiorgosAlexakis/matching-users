@@ -8,6 +8,6 @@ ena schema: matching
 gradle bootRun στο Intellij,ανοίγεις browser
 localhost:8080/App/FillCourses
 localhost:8080/App/Generate
-
+http://localhost:8080/Home/Match/{username}
 refresh στο database
 
