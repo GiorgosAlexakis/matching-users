@@ -1,21 +1,12 @@
-
 package matching.users.Matching;
 
 /*
 Matching Fuction:
 Input 1 user
 Search in database for 10 best matches
-
-
-
 for each user add a history table and a negative match table.
 History table ->previus users that has been matched.
 negative match -> users that the user said that didnt want to match.
-
-
-
-
-
 */
 
 import matching.users.Models.Course;
@@ -41,8 +32,8 @@ public class Matching{
     private UserRepository userRepository;
 
 
-        //boolean hascourse=user.hasCourse("sigkekrimeno course san entity omws oxi san onoma");
-        //merge sort
+    //boolean hascourse=user.hasCourse("sigkekrimeno course san entity omws oxi san onoma");
+    //merge sort
     public static void sort(List<Integer> list, List<User> list2) {
         if (list.size() < 2) {
             return;
@@ -69,7 +60,7 @@ public class Matching{
         int list2Index = 0;
 
 
-            while (leftIndex < left.size() && rightIndex < right.size()) {
+        while (leftIndex < left.size() && rightIndex < right.size()) {
             if (left.get(leftIndex) < right.get(rightIndex)) {
                 list.set(listIndex++, left.get(leftIndex++));
                 list2.set(list2Index++, left2.get(left2Index++));
@@ -146,10 +137,8 @@ public class Matching{
                 result_users.remove(20);
             }
         }
+
         return result_users;
 
     }
-    }
-
-
-
+}
