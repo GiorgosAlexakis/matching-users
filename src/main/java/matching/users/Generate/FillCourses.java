@@ -35,7 +35,7 @@ public class FillCourses {
         String splitBy = ">";
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("D:/courses_data.csv"));
+            br = new BufferedReader(new FileReader("C:/Users/Samsung/IdeaProjects/matching-users/courses_data.csv"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

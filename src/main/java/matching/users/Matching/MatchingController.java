@@ -17,24 +17,36 @@ import java.util.Set;
 @RequestMapping(path="/Home")
 public class MatchingController{
     @Autowired
-    private CourseRepository CourseRepository;
+    private CourseRepository courseRepository;
     @Autowired
-    private UserRepository UserRepository;
+    private UserRepository userRepository;
     @GetMapping(path="/Match/{username}")
     @ResponseBody List<User> GetSimilarUsers(@PathVariable("username") String username){
-        User user=UserRepository.findByUsername(username);
+        User user=userRepository.findByUsername(username);
+        List<User> ids = convertToListUser(userRepository.findAll());
         long userid=user.getId();
         String userlanguage=user.getlanguage();
         List<Course> courses = convertToList(user.getCourses());
         Matching match;
-        //match = new Matching();
-        //List<User> similarusers=match.matching(user,userid,username,userlanguage,courses);
+        match = new Matching();
+        List<User> similarusers=match.matching(user,userid,username,userlanguage,courses, ids);
         List<User> testt = new ArrayList<User>();
         testt.add(user);
-        return testt;
+        return similarusers;
     }
     public static <T> List<T> convertToList(Set<T> set)
     {
         return new ArrayList<>(set);
+    }
+    public static  List<User> convertToListUser(Iterable<User> iterator)
+    {
+        // Create an empty list
+        List<User> list = new ArrayList<>();
+        // Add each element of iterator to the List
+        for (User usr : iterator){
+            list.add(usr);
+        }
+        // Return the List
+        return list;
     }
 }
