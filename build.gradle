@@ -6,7 +6,7 @@ plugins {
 
 group = 'matching'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '8'
+sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
@@ -23,6 +23,7 @@ dependencies {
 	implementation 'org.webjars:bootstrap:3.3.7'
 	implementation 'org.webjars:jquery:3.1.1-1'
 	implementation 'com.github.javafaker:javafaker:1.0.2'
+	implementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
 
 	compile group: 'org.json', name: 'json', version: '20200518'
 	runtimeOnly 'mysql:mysql-connector-java'
